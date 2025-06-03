@@ -1,4 +1,5 @@
 import pymupdf
+import requests
 
 # Prompt user and clean the input
 raw_input = input("Please enter the path of pdf: ").strip()
@@ -39,3 +40,18 @@ for page_num, page in enumerate(doc, start=1):
 
     if highlights:
         highlighted_words[page_num] = highlights
+
+
+def get_definition(word):
+    url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        meaning = data[0]["meanings"][0]["definitions"][0]["definition"]
+        return meaning
+    else:
+        return "Definition not found."
+
+
+process
